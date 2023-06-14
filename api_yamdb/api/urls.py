@@ -12,17 +12,17 @@ router_1 = DefaultRouter()
 router_1.register(
     'categories',
     CategoriesViewSet,
-    base_name='categories'
+    basename='categories'
 )
 router_1.register(
     'genres',
     GenresViewSet,
-    base_name='genres'
+    basename='genres'
 )
 router_1.register(
     'titles',
     TitlesViewSet,
-    base_name='titles'
+    basename='titles'
 )
 router_1.register(
     r'^titles/(?P<title_id>\d+)/reviews',
