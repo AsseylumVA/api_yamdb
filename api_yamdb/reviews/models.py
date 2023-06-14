@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-User = get_user_model
+User = get_user_model()
 
 
 class Reviews(models.Model):
@@ -15,7 +15,7 @@ class Reviews(models.Model):
     #score = models.IntegerField()
     pub_date = models.DateTimeField(
         'Дата публикации', auto_now_add=True, db_index=True)
-    
+
     class Meta:
         ordering = ('pub_date',)
         verbose_name = 'Отзыв'
