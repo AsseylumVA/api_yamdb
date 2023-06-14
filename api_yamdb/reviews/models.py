@@ -4,12 +4,10 @@ from django.db import models
 class Categories(models.Model):
     name = models.CharField(
         max_length=256,
-        blank=False,
         verbose_name='Наименование категории'
     )
     slug = models.SlugField(
-        unique=True,
-        blank=False
+        unique=True
     )
 
     class Meta:
@@ -24,12 +22,10 @@ class Categories(models.Model):
 class Genres(models.Model):
     name = models.CharField(
         max_length=256,
-        blank=False,
         verbose_name='Название жанра'
     )
     slug = models.SlugField(
-        unique=True,
-        blank=False
+        unique=True
     )
 
     class Meta:
@@ -44,17 +40,14 @@ class Genres(models.Model):
 class Titles(models.Model):
     name = models.CharField(
         max_length=256,
-        blank=False,
         verbose_name='Название произведения'
     )
     year = models.PositiveSmallIntegerField(
         max_length=4,
-        blank=False,
         verbose_name='Год создания произведения'
     )
     category = models.ForeignKey(
         Categories,
-        blank=False,
         null=True,
         related_name='titles',
         verbose_name='Категория произведения',
@@ -64,7 +57,6 @@ class Titles(models.Model):
     genre = models.ManyToManyField(
         Genres,
         through='TitleGenre',
-        blank=False,
         verbose_name='Описание жанра'
     )
     description = models.TextField(
@@ -95,3 +87,6 @@ class TitleGenre(models.Model):
         ordering = ('genre',)
         verbose_name = 'Произведение и жанр'
         verbose_name_plural = 'Произведения и жанры'
+
+    def str(self):
+        return f'Название: {self.title}, жанр: {self.genre}'
