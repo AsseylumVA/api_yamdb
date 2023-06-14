@@ -13,7 +13,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated,)
     pagination_class = UsersPagination
 
-    @action(methods=['get', 'patch'], url_patch='me')
+    @action(detail=True, methods=['get', 'patch'])
     def me_info(self, request):
         me = request.user
 
