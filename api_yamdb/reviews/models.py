@@ -3,7 +3,7 @@ from django.db import models
 
 class Categories(models.Model):
     name = models.CharField(
-        max_length=50,
+        max_length=256,
         blank=False,
         verbose_name='Наименование категории'
     )
@@ -23,7 +23,7 @@ class Categories(models.Model):
 
 class Genres(models.Model):
     name = models.CharField(
-        max_length=50,
+        max_length=256,
         blank=False,
         verbose_name='Название жанра'
     )
@@ -47,7 +47,7 @@ class Titles(models.Model):
         blank=False,
         verbose_name='Название произведения'
     )
-    year = models.PositiveSmallIntegerField(  # Более подходящий тип поля - Значения от 0 до 32767
+    year = models.PositiveSmallIntegerField(
         max_length=4,
         blank=False,
         verbose_name='Год создания произведения'
