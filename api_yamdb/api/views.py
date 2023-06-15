@@ -7,7 +7,6 @@ from reviews.models import Reviews, Titles
 class ReviewsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ReviewsSerializer
     permission_classes = ()
-    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         title = get_object_or_404(Titles, pk=self.kwargs.get('title_id'))
@@ -22,7 +21,6 @@ class ReviewsViewSet(viewsets.ModelViewSet):
 class CommentsViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.CommentsSerializer
     permission_classes = ()
-    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         review = get_object_or_404(
