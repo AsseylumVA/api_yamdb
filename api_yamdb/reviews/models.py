@@ -5,26 +5,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class Comments(models.Model):
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE,
-        related_name='comments', verbose_name='Автор')
-    text = models.TextField()
-    pub_date = models.DateTimeField(
-        'Дата добавления', auto_now_add=True, db_index=True)
-    review = models.ForeignKey(
-        Reviews, on_delete=models.CASCADE,
-        related_name='comments', verbose_name='Коммент на отзыв')
-
-    class Meta:
-        ordering = ('pub_date',)
-        verbose_name = 'Комментарий'
-        verbose_name_plural = 'Комментарии'
-
-    def __str__(self):
-        return self.text
-
-      
 class Categories(models.Model):
     name = models.CharField(
         max_length=256,
@@ -132,6 +112,26 @@ class Reviews(models.Model):
         ordering = ('pub_date',)
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
+
+    def __str__(self):
+        return self.text
+
+
+class Comments(models.Model):
+    author = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        related_name='comments', verbose_name='Автор')
+    text = models.TextField()
+    pub_date = models.DateTimeField(
+        'Дата добавления', auto_now_add=True, db_index=True)
+    review = models.ForeignKey(
+        Reviews, on_delete=models.CASCADE,
+        related_name='comments', verbose_name='Коммент на отзыв')
+
+    class Meta:
+        ordering = ('pub_date',)
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
 
     def __str__(self):
         return self.text
