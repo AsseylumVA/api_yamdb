@@ -1,17 +1,20 @@
-from rest_framework import permissions, status, viewsets
+from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import User
 from .serializers import UserSerializer
+from .permissions import IsAdmin
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (IsAdmin, )
 
-    @action(detail=True, methods=['get', 'patch'])
+    @action(detail=True, methods=['get', 'patch'],
+            permission_classes=[
+                'rest_framework.permissions.IsAuthenticated', ])
     def me_info(self, request):
         me = request.user
 
