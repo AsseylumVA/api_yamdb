@@ -6,11 +6,11 @@ class User(AbstractUser):
     ADMIN = 'admin'
     MODER = 'moder'
     USER = 'user'
-    ROLE_CHOICES = [
+    ROLE_CHOICES = (
         (ADMIN, 'admin'),
         (MODER, 'moderator'),
         (USER, 'user'),
-    ]
+    )
 
     email = models.EmailField(
         'Электронная почта',

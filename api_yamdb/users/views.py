@@ -3,7 +3,6 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import User
-from .pagination import UsersPagination
 from .serializers import UserSerializer
 
 
@@ -11,7 +10,6 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = (permissions.IsAuthenticated,)
-    pagination_class = UsersPagination
 
     @action(detail=True, methods=['get', 'patch'])
     def me_info(self, request):
