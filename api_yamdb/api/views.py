@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets, serializers
-from rest_framework.pagination import PageNumberPagination
 
 from reviews.models import Reviews, Titles
 
