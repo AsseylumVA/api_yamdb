@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     ADMIN = 'admin'
-    MODER = 'moderator'
+    MODER = 'moder'
     USER = 'user'
     ROLE_CHOICES = [
         (ADMIN, 'admin'),
@@ -12,11 +12,18 @@ class User(AbstractUser):
         (USER, 'user'),
     ]
 
+    email = models.EmailField(
+        'Электронная почта',
+        unique=True,
+    )
+
     bio = models.TextField(
         'Биография',
         blank=True,
     )
     role = models.CharField(
+        'Роль',
+        max_length=5,
         choices=ROLE_CHOICES,
         default=USER
     )
