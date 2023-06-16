@@ -16,3 +16,23 @@ class UserSerializer(serializers.ModelSerializer):
                 fields=('username', 'email')
             )
         ]
+
+
+class UserSingupSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=User.objects.all(),
+                fields=('username', 'email')
+            )
+        ]
+
+
+class UserCreateTokenSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('username', 'confirmation_code')
