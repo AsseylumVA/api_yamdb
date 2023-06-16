@@ -104,7 +104,7 @@ class Reviews(models.Model):
     title = models.ForeignKey(
         Titles, on_delete=models.CASCADE,
         related_name='reviews', verbose_name='Название')
-    # score = models.IntegerField()
+    # score = models.IntegerField(default=0,)
     pub_date = models.DateTimeField(
         'Дата публикации', auto_now_add=True, db_index=True)
 
