@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'users',
     'reviews',
     'api',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +70,7 @@ DATABASES = {
     }
 }
 
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Password validation
 
@@ -90,7 +92,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
