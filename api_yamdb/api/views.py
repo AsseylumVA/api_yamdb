@@ -1,11 +1,13 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, serializers
+from rest_framework import viewsets
+
+from api.serializers import ReviewsSerializer, CommentsSerializer
 
 from reviews.models import Reviews, Titles
 
 
 class ReviewsViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.ReviewsSerializer
+    serializer_class = ReviewsSerializer
     permission_classes = ()
 
     def get_queryset(self):
@@ -19,7 +21,7 @@ class ReviewsViewSet(viewsets.ModelViewSet):
 
 
 class CommentsViewSet(viewsets.ModelViewSet):
-    serializer_class = serializers.CommentsSerializer
+    serializer_class = CommentsSerializer
     permission_classes = ()
 
     def get_queryset(self):

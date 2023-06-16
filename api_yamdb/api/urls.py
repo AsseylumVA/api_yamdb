@@ -5,8 +5,8 @@ from api.views import (CategoriesViewSet,
                        CommentsViewSet,
                        GenresViewSet,
                        ReviewsViewSet,
-                       TitlesViewSet,
-                       UserViewSet)
+                       TitlesViewSet)
+from users.views import UserViewSet
 
 router_1 = DefaultRouter()
 router_1.register(
