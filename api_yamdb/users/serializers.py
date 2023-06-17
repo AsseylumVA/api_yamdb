@@ -18,21 +18,28 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
-class UserSingupSerializer(serializers.ModelSerializer):
+class UserSingupSerializer(serializers.Serializer):
 
-    class Meta:
-        model = User
-        fields = ('username', 'email')
-        validators = [
-            UniqueTogetherValidator(
-                queryset=User.objects.all(),
-                fields=('username', 'email')
-            )
-        ]
+    username = serializers.RegexField(
+        r'^[\w.@+-]+$',
+        max_length=150,
+        required=True
+    )
+    email = serializers.EmailField(max_length=254, required=True)
+
+    def validate_username(self, value):
+        if value == 'me':
+            raise serializers.ValidationError(
+                'username ''me'' is not avilable')
+        return value
 
 
-class UserCreateTokenSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ('username', 'confirmation_code')
+class UserCreateTokenSerializer(serializers.Serializer):
+    username = serializers.RegexField(
+        r'^[\w.@+-]+$',
+        max_length=150,
+        required=True
+    )
+    confirmation_code = serializers.CharField(
+        required=True,
+    )

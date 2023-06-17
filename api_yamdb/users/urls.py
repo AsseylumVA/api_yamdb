@@ -7,8 +7,12 @@ from .views import UserViewSet, user_signup, user_create_token
 router = DefaultRouter()
 router.register('users', UserViewSet)
 
+auth_v1 = [
+    path('signup/', user_signup),
+    path('token/', user_create_token),
+]
+
 urlpatterns = [
-    path('api/v1/', include(router.urls)),
-    path('api/v1/auth/signup', user_signup, name='signup'),
-    path('api/v1/auth/token', user_create_token, name='token'),
+    path('v1/', include(router.urls)),
+    path('v1/auth/', include(auth_v1)),
 ]

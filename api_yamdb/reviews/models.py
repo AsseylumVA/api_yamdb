@@ -46,8 +46,7 @@ class Titles(models.Model):
         max_length=256,
         verbose_name='Название произведения'
     )
-    year = models.PositiveSmallIntegerField(
-        max_length=4,
+    year = models.IntegerField(
         verbose_name='Год создания произведения'
     )
     category = models.ForeignKey(
