@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
-from reviews.models import Comments, Reviews, Titles
+
+from reviews.models import (Categories,
+                            Genres,
+                            Titles,
+                            Reviews,
+                            Comments)
 
 
 class ReviewsSerializer(serializers.ModelSerializer):
@@ -39,3 +44,43 @@ class CommentsSerializer(serializers.ModelSerializer):
         model = Comments
         fields = '__all__'
         read_only_fields = ('id', 'author', 'review')
+
+
+class CategoriesSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Categories
+        fields = '__all__'
+
+
+class GenresSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Genres
+        fields = '__all__'
+
+
+class TitleGenreSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(
+        queryset=Categories.objects.all(),
+        slug_field='slug'
+    )
+    genre = serializers.SlugRelatedField(
+        queryset=Genres.objects.all(),
+        slug_field='slug',
+        many=True
+    )
+
+    class Meta:
+        model = Genres
+        fields = '__all__'
+
+
+class TitlesSerializer(serializers.ModelSerializer):
+    category = CategoriesSerializer(read_only=True)
+    genre = GenresSerializer(read_only=True, many=True)
+    rating = ...
+
+    class Meta:
+        model = Titles
+        fields = '__all__'
