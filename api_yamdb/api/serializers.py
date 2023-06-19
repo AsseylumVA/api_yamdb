@@ -34,6 +34,11 @@ class ReviewsSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Нельзя дважды оставить ревью')
         return Reviews.objects.create(**validated_data)
 
+    def validation_rating(self, value):
+        if 0 >= value >= 10:
+            raise serializers.ValidationError('Недопустимая оценка')
+        return value
+
 
 class CommentsSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
