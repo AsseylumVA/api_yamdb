@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'users',
     'reviews',
     'api',
@@ -70,7 +71,7 @@ DATABASES = {
     }
 }
 
-STATIC_ROOT = BASE_DIR / 'static'
+
 
 # Password validation
 
@@ -108,6 +109,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
+
+# STATIC_ROOT = BASE_DIR / 'static'
 
 AUTH_USER_MODEL = 'users.User'
 

@@ -8,4 +8,4 @@ class UserAdmin(admin.ModelAdmin):
                     'last_name', 'is_staff', 'bio', 'role')
 
 
-admin.site.register(User, UserAdmin)
+# admin.site.register(User, UserAdmin)
