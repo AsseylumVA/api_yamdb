@@ -4,7 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     ADMIN = 'admin'
-    MODER = 'moder'
+    MODER = 'moderator'
     USER = 'user'
     ROLE_CHOICES = (
         (ADMIN, 'admin'),
@@ -23,7 +23,7 @@ class User(AbstractUser):
     )
     role = models.CharField(
         'Роль',
-        max_length=5,
+        max_length=9,
         choices=ROLE_CHOICES,
         default=USER
     )

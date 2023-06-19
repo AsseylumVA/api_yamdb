@@ -18,6 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
         ]
 
 
+class UserMeSerializer(UserSerializer):
+    role = serializers.CharField(read_only=True)
+
+
 class UserSingupSerializer(serializers.Serializer):
 
     username = serializers.RegexField(
