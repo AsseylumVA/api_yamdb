@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 User = get_user_model()
@@ -79,10 +80,12 @@ class Titles(models.Model):
 class TitleGenre(models.Model):
     title = models.ForeignKey(
         Titles,
+        null=True,
         on_delete=models.CASCADE
     )
     genre = models.ForeignKey(
         Genres,
+        null=True,
         on_delete=models.CASCADE
     )
 
@@ -91,7 +94,7 @@ class TitleGenre(models.Model):
         verbose_name = 'Произведение и жанр'
         verbose_name_plural = 'Произведения и жанры'
 
-    def str(self):
+    def __str__(self):
         return f'Название: {self.title}, жанр: {self.genre}'
 
 
@@ -103,7 +106,9 @@ class Reviews(models.Model):
     title = models.ForeignKey(
         Titles, on_delete=models.CASCADE,
         related_name='reviews', verbose_name='Название')
-    # score = models.IntegerField(default=0,)
+    score = models.IntegerField('Оценка', default=0, validators=[
+        MinValueValidator(1, 'Минимальное значение 1'),
+        MaxValueValidator(10, 'Максимальное значение 10')])
     pub_date = models.DateTimeField(
         'Дата публикации', auto_now_add=True, db_index=True)
 
