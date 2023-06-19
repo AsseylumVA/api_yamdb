@@ -4,13 +4,13 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .models import User
-from .serializers import (UserSerializer, UserSingupSerializer,
-                          UserCreateTokenSerializer)
+from .serializers import (UserSerializer, UserMeSerializer,
+                          UserSingupSerializer, UserCreateTokenSerializer)
 from .permissions import IsAdmin
 
 
@@ -20,21 +20,27 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdmin, )
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username',)
+    lookup_field = 'username'
+    http_method_names = ('get', 'post', 'patch', 'delete', 'head', 'options', )
 
-    @action(detail=True, methods=['get', 'patch'],
-            permission_classes=['IsAuthenticated', ])
-    def me_info(self, request):
-        me = request.user
+    @action(detail=False, methods=['get', 'patch'],
+            permission_classes=[IsAuthenticated, ])
+    def me(self, request):
+        me_user = request.user
 
         if request.method == 'PATCH':
-            serializer = self.get_serializer(me, data=request.data)
+            serializer = UserMeSerializer(
+                me_user,
+                data=request.data,
+                partial=True,
+            )
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.get_serializer(me)
+        serializer = self.get_serializer(me_user)
         return Response(serializer.data)
 
 

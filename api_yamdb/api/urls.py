@@ -6,7 +6,6 @@ from api.views import (CategoriesViewSet,
                        GenresViewSet,
                        ReviewsViewSet,
                        TitlesViewSet)
-from users.views import UserViewSet
 
 router_1 = DefaultRouter()
 router_1.register(
@@ -34,11 +33,7 @@ router_1.register(
     CommentsViewSet,
     basename='comments'
 )
-router_1.register(
-    'users',
-    UserViewSet
-)
 
 urlpatterns = [
-    path('v1/', include(router_1.urls)),
+    path('', include(router_1.urls)),
 ]
