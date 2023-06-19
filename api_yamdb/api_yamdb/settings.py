@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from django.conf.global_settings import DATETIME_INPUT_FORMATS
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -125,3 +126,5 @@ REST_FRAMEWORK = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
+DATETIME_INPUT_FORMATS += ('%Y-%m-%dT%H:%M:%S.%f%z',)

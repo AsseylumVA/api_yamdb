@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 User = get_user_model()
 
 
@@ -79,10 +80,12 @@ class Titles(models.Model):
 class TitleGenre(models.Model):
     title = models.ForeignKey(
         Titles,
+        null=True,
         on_delete=models.CASCADE
     )
     genre = models.ForeignKey(
         Genres,
+        null=True,
         on_delete=models.CASCADE
     )
 
@@ -91,7 +94,7 @@ class TitleGenre(models.Model):
         verbose_name = 'Произведение и жанр'
         verbose_name_plural = 'Произведения и жанры'
 
-    def str(self):
+    def __str__(self):
         return f'Название: {self.title}, жанр: {self.genre}'
 
 
