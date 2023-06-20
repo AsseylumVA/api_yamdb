@@ -3,12 +3,12 @@ from import_export import resources
 from import_export.admin import ImportExportModelAdmin
 from import_export.fields import Field
 
-from reviews.models import (Categories,
-                            Genres,
-                            Titles,
+from reviews.models import (Category,
+                            Genre,
+                            Title,
                             TitleGenre,
-                            Reviews,
-                            Comments)
+                            Review,
+                            Comment)
 from users.models import User
 
 
@@ -25,43 +25,43 @@ class UserAdmin(ImportExportModelAdmin):
 admin.site.register(User, UserAdmin)
 
 
-class CategoriesResource(resources.ModelResource):
+class CategoryResource(resources.ModelResource):
 
     class Meta:
-        model = Categories
+        model = Category
 
 
-class CategoriesAdmin(ImportExportModelAdmin):
-    resource_classes = [CategoriesResource]
+class CategoryAdmin(ImportExportModelAdmin):
+    resource_classes = [CategoryResource]
 
 
-admin.site.register(Categories, CategoriesAdmin)
+admin.site.register(Category, CategoryAdmin)
 
 
-class GenresResource(resources.ModelResource):
-
-    class Meta:
-        model = Genres
-
-
-class GenresAdmin(ImportExportModelAdmin):
-    resource_classes = [GenresResource]
-
-
-admin.site.register(Genres, GenresAdmin)
-
-
-class TitlesResource(resources.ModelResource):
+class GenreResource(resources.ModelResource):
 
     class Meta:
-        model = Titles
+        model = Genre
 
 
-class TitlesAdmin(ImportExportModelAdmin):
-    resource_classes = [TitlesResource]
+class GenreAdmin(ImportExportModelAdmin):
+    resource_classes = [GenreResource]
 
 
-admin.site.register(Titles, TitlesAdmin)
+admin.site.register(Genre, GenreAdmin)
+
+
+class TitleResource(resources.ModelResource):
+
+    class Meta:
+        model = Title
+
+
+class TitleAdmin(ImportExportModelAdmin):
+    resource_classes = [TitleResource]
+
+
+admin.site.register(Title, TitleAdmin)
 
 
 class TitleGenreResource(resources.ModelResource):
@@ -79,29 +79,29 @@ class TitleGenreAdmin(ImportExportModelAdmin):
 admin.site.register(TitleGenre, TitleGenreAdmin)
 
 
-class ReviewsResource(resources.ModelResource):
+class ReviewResource(resources.ModelResource):
     title = Field(attribute='title_id', column_name="title_id")
 
     class Meta:
-        model = Reviews
+        model = Review
 
 
-class ReviewsAdmin(ImportExportModelAdmin):
-    resource_classes = [ReviewsResource]
+class ReviewAdmin(ImportExportModelAdmin):
+    resource_classes = [ReviewResource]
 
 
-admin.site.register(Reviews, ReviewsAdmin)
+admin.site.register(Review, ReviewAdmin)
 
 
-class CommentsResource(resources.ModelResource):
+class CommentResource(resources.ModelResource):
     review = Field(attribute='review_id', column_name="review_id")
 
     class Meta:
-        model = Comments
+        model = Comment
 
 
-class CommentsAdmin(ImportExportModelAdmin):
-    resource_classes = [CommentsResource]
+class CommentAdmin(ImportExportModelAdmin):
+    resource_classes = [CommentResource]
 
 
-admin.site.register(Comments, CommentsAdmin)
+admin.site.register(Comment, CommentAdmin)
