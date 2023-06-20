@@ -1,14 +1,14 @@
 from rest_framework import serializers
 from rest_framework.generics import get_object_or_404
 
-from reviews.models import (Categories,
-                            Genres,
-                            Titles,
-                            Reviews,
-                            Comments)
+from reviews.models import (Category,
+                            Genre,
+                            Title,
+                            Review,
+                            Comment)
 
 
-class ReviewsSerializer(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
     title = serializers.SlugRelatedField(
         slug_field='name',
         read_only=True,
@@ -20,67 +20,67 @@ class ReviewsSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = Reviews
+        model = Review
         fields = ('id', 'author', 'text', 'title', 'score', 'pub_date')
 
     def create(self, validated_data):
         request = self.context['request']
         author = request.user
         title_id = self.context['view'].kwargs.get('title_id')
-        title = get_object_or_404(Titles, pk=title_id)
-        if Reviews.objects.filter(
+        title = get_object_or_404(Title, pk=title_id)
+        if Review.objects.filter(
                 title=title,
                 author=author).exists():
             raise serializers.ValidationError('Нельзя дважды оставить ревью')
-        return Reviews.objects.create(**validated_data)
+        return Review.objects.create(**validated_data)
 
 
-class CommentsSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         slug_field='username', read_only=True,
     )
 
     class Meta:
-        model = Comments
+        model = Comment
         fields = '__all__'
         read_only_fields = ('id', 'author', 'review')
 
 
-class CategoriesSerializer(serializers.ModelSerializer):
+class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Categories
+        model = Category
         fields = '__all__'
 
 
-class GenresSerializer(serializers.ModelSerializer):
+class GenreSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Genres
+        model = Genre
         fields = '__all__'
 
 
 class TitleGenreSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
-        queryset=Categories.objects.all(),
+        queryset=Category.objects.all(),
         slug_field='slug'
     )
     genre = serializers.SlugRelatedField(
-        queryset=Genres.objects.all(),
+        queryset=Genre.objects.all(),
         slug_field='slug',
         many=True
     )
 
     class Meta:
-        model = Genres
+        model = Genre
         fields = '__all__'
 
 
-class TitlesSerializer(serializers.ModelSerializer):
-    category = CategoriesSerializer(read_only=True)
-    genre = GenresSerializer(read_only=True, many=True)
+class TitleSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    genre = GenreSerializer(read_only=True, many=True)
     rating = ...
 
     class Meta:
-        model = Titles
+        model = Title
         fields = '__all__'
