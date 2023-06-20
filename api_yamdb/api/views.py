@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from api.permissions import IsAdminOrReadOnly, ReviewPermissions
+from api.permissions import IsAdminOrReadOnly, ReviewCommentPermissions
 from api.serializers import (CategoriesSerializer,
                              CommentsSerializer,
                              GenresSerializer,
@@ -17,7 +17,7 @@ from reviews.models import (Categories,
 
 class ReviewsViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewsSerializer
-    permission_classes = (ReviewPermissions,)
+    permission_classes = (ReviewCommentPermissions,)
 
     def get_queryset(self):
         title = get_object_or_404(Titles, pk=self.kwargs.get('title_id'))
