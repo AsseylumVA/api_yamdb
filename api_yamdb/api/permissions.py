@@ -8,7 +8,7 @@ class IsAdminOrModer(permissions.BasePermission):
         return request.user.is_moderator or request.user.is_admin
 
 
-class ReviewPermissions(permissions.BasePermission):
+class ReviewCommentPermissions(permissions.BasePermission):
     def has_permission(self, request, view):
         return (request.method in permissions.SAFE_METHODS
                 or request.user.is_authenticated)
