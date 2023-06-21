@@ -1,13 +1,10 @@
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg
-# from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets
-from rest_framework import filters
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+from rest_framework import filters, mixins, viewsets
 
 from api.permissions import (IsAdminOrReadOnly,
-                             ReviewCommentPermissions,
-                             IsAdminOrModer)
+                             ReviewCommentPermissions,)
 from api.serializers import (CategorySerializer,
                              CommentSerializer,
                              GenreSerializer,
@@ -18,6 +15,13 @@ from reviews.models import (Category,
                             Genre,
                             Title,
                             Review)
+
+
+class ListCreateDestroyViewSet(mixins.ListModelMixin,
+                               mixins.CreateModelMixin,
+                               mixins.DestroyModelMixin,
+                               viewsets.GenericViewSet):
+    pass
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
@@ -55,7 +59,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user, review=review)
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(ListCreateDestroyViewSet):
     serializer_class = CategorySerializer
     permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
@@ -64,7 +68,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
 
 
-class GenreViewSet(viewsets.ModelViewSet):
+class GenreViewSet(ListCreateDestroyViewSet):
     serializer_class = GenreSerializer
     permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
@@ -78,10 +82,10 @@ class TitleViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Title.objects.all()
 
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return TitleGenreSerializer
-        return TitleSerializer
+    # def get_serializer_class(self):
+    #     if self.request.method == 'GET':
+    #         return TitleGenreSerializer
+    #     return TitleSerializer
 
     def get_queryset(self):
         return Title.objects.annotate(

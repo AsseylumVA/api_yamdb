@@ -79,8 +79,8 @@ class TitleGenreSerializer(serializers.ModelSerializer):
 
 
 class TitleSerializer(serializers.ModelSerializer):
-    category = CategorySerializer(read_only=True)
-    genre = GenreSerializer(read_only=True, many=True)
+    category = CategorySerializer()
+    genre = GenreSerializer(many=True)
     rating = serializers.IntegerField(read_only=True)
 
     class Meta:
@@ -94,3 +94,6 @@ class TitleSerializer(serializers.ModelSerializer):
             'category',
             'rating',
         )
+
+    def create(self, validated_data):
+        
