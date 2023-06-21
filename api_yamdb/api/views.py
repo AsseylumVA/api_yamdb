@@ -3,7 +3,7 @@ from django.db.models import Avg
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework import filters
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, SAFE_METHODS
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from api.permissions import (IsAdminOrReadOnly,
                              ReviewCommentPermissions,
@@ -36,7 +36,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, ReviewCommentPermissions)
+    permission_classes = (ReviewCommentPermissions,)
 
     def get_queryset(self):
         review = get_object_or_404(
@@ -57,7 +57,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
-    permission_classes = (IsAuthenticatedOrReadOnly, IsAdminOrReadOnly)
+    permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
     lookup_field = 'slug'
