@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.db.models import Avg
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, mixins, viewsets
 
 from api.permissions import (IsAdminOrReadOnly,
@@ -9,12 +10,14 @@ from api.serializers import (CategorySerializer,
                              CommentSerializer,
                              GenreSerializer,
                              ReviewSerializer,
-                             TitleGenreSerializer,
+                             TitleGetSerializer,
                              TitleSerializer)
 from reviews.models import (Category,
                             Genre,
                             Title,
                             Review)
+
+from .filters import TitleFilter
 
 
 class ListCreateDestroyViewSet(mixins.ListModelMixin,
@@ -78,14 +81,15 @@ class GenreViewSet(ListCreateDestroyViewSet):
 
 
 class TitleViewSet(viewsets.ModelViewSet):
-    serializer_class = TitleSerializer
     permission_classes = (IsAdminOrReadOnly,)
     queryset = Title.objects.all()
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = TitleFilter
 
-    # def get_serializer_class(self):
-    #     if self.request.method == 'GET':
-    #         return TitleGenreSerializer
-    #     return TitleSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return TitleGetSerializer
+        return TitleSerializer
 
     def get_queryset(self):
         return Title.objects.annotate(
