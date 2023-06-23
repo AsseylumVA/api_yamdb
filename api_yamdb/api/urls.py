@@ -19,16 +19,12 @@ router_1.register(
     GenreViewSet,
     basename='genres'
 )
-router_1.register(r'titles')
+router_1.register(r'titles', TitleViewSet, basename='titles')
 
 title_router_1 = routers.NestedSimpleRouter(
+    router_1,
     r'titles',
     lookup='titles')
-title_router_1.register(
-    r'',
-    TitleViewSet,
-    basename='titles'
-)
 title_router_1.register(
     r'(?P<title_id>\d+)/reviews',
     ReviewViewSet,
