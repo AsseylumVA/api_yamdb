@@ -127,3 +127,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
 DATETIME_INPUT_FORMATS += ('%Y-%m-%dT%H:%M:%S.%f%z',)
+
+DEFAULT_FROM_EMAIL = 'yamdb@defaultmail.com'
+DEFAULT_SUBJECT = 'confirmation code'

@@ -1,6 +1,7 @@
 from random import randint
 
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework import filters, status, viewsets
 from rest_framework.decorators import action, api_view, permission_classes
@@ -8,10 +9,15 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from api_yamdb.settings import DEFAULT_SUBJECT
+
 from .models import User
 from .serializers import (UserSerializer, UserMeSerializer,
                           UserSingupSerializer, UserCreateTokenSerializer)
 from .permissions import IsAdmin
+
+SIGNUP_WRONG_EMAIL_MESSAGE = 'Username или Email уже занят!'
+CONFIRM_CODE_MESSAGE = 'Your confirmation code: {}'
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -52,23 +58,25 @@ def user_signup(request):
     if serializer.is_valid():
         email = serializer.validated_data.get('email')
         username = serializer.validated_data.get('username')
-        if (not User.objects.filter(username=username, email=email).exists()
-            and (User.objects.filter(username=username).exists()
-                 or User.objects.filter(email=email).exists())):
+
+        if User.objects.filter(
+            Q(username=username) & ~Q(email=email)
+            | Q(email=email) & ~Q(username=username)
+        ).exists():
             return Response(
-                'Username или Email уже занят!',
+                SIGNUP_WRONG_EMAIL_MESSAGE,
                 status=status.HTTP_400_BAD_REQUEST
             )
         user, created = User.objects.get_or_create(
             username=username,
             email=email
         )
-        confirmation_code = randint(1000, 9999)
+        confirmation_code = randint(100, 999999)
 
         send_mail(
-            subject='confirmation code',
-            message='Your confirmation code: {}'.format(confirmation_code),
-            from_email='yamdb@defaultmail.com',
+            subject=DEFAULT_SUBJECT,
+            from_email=None,
+            message=CONFIRM_CODE_MESSAGE.format(confirmation_code),
             recipient_list=[email],
         )
         user.confirmation_code = confirmation_code
