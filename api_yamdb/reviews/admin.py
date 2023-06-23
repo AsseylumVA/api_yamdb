@@ -22,9 +22,6 @@ class UserAdmin(ImportExportModelAdmin):
     resource_classes = [UserResource]
 
 
-admin.site.register(User, UserAdmin)
-
-
 class CategoryResource(resources.ModelResource):
 
     class Meta:
@@ -33,9 +30,6 @@ class CategoryResource(resources.ModelResource):
 
 class CategoryAdmin(ImportExportModelAdmin):
     resource_classes = [CategoryResource]
-
-
-admin.site.register(Category, CategoryAdmin)
 
 
 class GenreResource(resources.ModelResource):
@@ -48,9 +42,6 @@ class GenreAdmin(ImportExportModelAdmin):
     resource_classes = [GenreResource]
 
 
-admin.site.register(Genre, GenreAdmin)
-
-
 class TitleResource(resources.ModelResource):
 
     class Meta:
@@ -59,9 +50,6 @@ class TitleResource(resources.ModelResource):
 
 class TitleAdmin(ImportExportModelAdmin):
     resource_classes = [TitleResource]
-
-
-admin.site.register(Title, TitleAdmin)
 
 
 class TitleGenreResource(resources.ModelResource):
@@ -76,9 +64,6 @@ class TitleGenreAdmin(ImportExportModelAdmin):
     resource_classes = [TitleGenreResource]
 
 
-admin.site.register(TitleGenre, TitleGenreAdmin)
-
-
 class ReviewResource(resources.ModelResource):
     title = Field(attribute='title_id', column_name="title_id")
 
@@ -88,9 +73,6 @@ class ReviewResource(resources.ModelResource):
 
 class ReviewAdmin(ImportExportModelAdmin):
     resource_classes = [ReviewResource]
-
-
-admin.site.register(Review, ReviewAdmin)
 
 
 class CommentResource(resources.ModelResource):
@@ -104,4 +86,10 @@ class CommentAdmin(ImportExportModelAdmin):
     resource_classes = [CommentResource]
 
 
+admin.site.register(User, UserAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Genre, GenreAdmin)
+admin.site.register(Title, TitleAdmin)
+admin.site.register(TitleGenre, TitleGenreAdmin)
+admin.site.register(Review, ReviewAdmin)
 admin.site.register(Comment, CommentAdmin)
