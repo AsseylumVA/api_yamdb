@@ -1,5 +1,6 @@
 from random import randint
 
+from django.conf import settings
 from django.core.mail import send_mail
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -9,15 +10,13 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from api_yamdb.settings import DEFAULT_SUBJECT
-
 from .models import User
 from .serializers import (UserSerializer, UserMeSerializer,
                           UserSingupSerializer, UserCreateTokenSerializer)
 from .permissions import IsAdmin
 
 SIGNUP_WRONG_EMAIL_MESSAGE = 'Username или Email уже занят!'
-CONFIRM_CODE_MESSAGE = 'Your confirmation code: {}'
+CONFIRM_CODE_MESSAGE = 'Ваш код подтверждения: {}'
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -74,7 +73,7 @@ def user_signup(request):
         confirmation_code = randint(100, 999999)
 
         send_mail(
-            subject=DEFAULT_SUBJECT,
+            subject=settings.DEFAULT_SUBJECT,
             from_email=None,
             message=CONFIRM_CODE_MESSAGE.format(confirmation_code),
             recipient_list=[email],
